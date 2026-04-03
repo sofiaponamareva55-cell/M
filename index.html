@@ -46,6 +46,41 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        // ФУНКЦИЯ 1 — ДОБАВЛЕНИЕ
+async function addRequest(name, email) {
+    try {
+        await addDoc(collection(db, "requests"), {
+            name: name,
+            email: email,
+            likes: 0,
+            timestamp: serverTimestamp()
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// ФУНКЦИЯ 2 — ПОЛУЧЕНИЕ
+function getRequests() {
+    const q = query(collection(db, "requests"), orderBy("timestamp", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+        const feed = document.getElementById("feed");
+        feed.innerHTML = "";
+
+        snapshot.forEach((docItem) => {
+            const data = docItem.data();
+
+            feed.innerHTML += `
+                <div class="post">
+                    <b>${data.name}</b>
+                    <p>${data.email}</p>
+                </div>
+            `;
+        });
+    });
+}
+        getRequests();
 
         // МЕТОД: АТОМАРНОЕ ОБНОВЛЕНИЕ (LIKES)
         window.processLike = async (id) => {
@@ -62,11 +97,10 @@
             const btn = document.getElementById('mainBtn');
             btn.disabled = true;
             try {
-                await addDoc(collection(db, "requests"), {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    likes: 0,
-                    timestamp: serverTimestamp()
+                await addRequest(
+    document.getElementById('name').value,
+    document.getElementById('email').value
+);
                 });
                 document.getElementById('email').value = "";
             } catch (e) { 
