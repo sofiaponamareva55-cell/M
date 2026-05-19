@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Статус Монитор</title>
+    <title>🎀 Статус Монитор 🎀</title>
     <style>
         :root {
-            --bg: #f0f2f5;
+            --bg: #fff5f7; /* Очень нежный розовый фон страницы */
             --card: #ffffff;
-            --text: #1c1e21;
-            --primary: #4285F4;
-            --danger: #f44336;
-            --warning: #ff9800;
-            --success: #4caf50;
-            --border: #e4e6eb;
+            --text: #6b4f57; /* Мягкий кофейно-розовый цвет текста вместо скучного черного */
+            --primary: #ffb7c5; /* Пастельно-розовый */
+            --primary-hover: #ff9eaf;
+            --danger: #ff8b94; /* Клубничный красный */
+            --warning: #ffdac1; /* Персиковый оранжевый */
+            --success: #b5ead7; /* Мятный зеленый */
+            --border: #ffe3e8; /* Нежная розовая граница */
         }
 
         body { 
-            font-family: 'Inter', -apple-system, system-ui, sans-serif; 
+            font-family: 'Comic Sans MS', 'Inter', -apple-system, sans-serif; 
             background-color: var(--bg); 
+            background-image: radial-gradient(#ffdfe5 15%, transparent 15%), radial-gradient(#ffdfe5 15%, transparent 15%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px; /* Милый узор в крапинку на фоне */
             color: var(--text);
             display: flex;
             justify-content: center;
@@ -33,63 +37,101 @@
             width: 100%;
             max-width: 450px;
             background: var(--card);
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 30px 24px;
+            border-radius: 24px; /* Более округлые «вкусные» углы */
+            box-shadow: 0 8px 24px rgba(255, 183, 197, 0.25); /* Розовая мягкая тень */
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+            border: 2px solid #ffe8ec;
         }
 
-        h1 { font-size: 22px; margin-top: 0; text-align: center; }
+        h1 { 
+            font-size: 26px; 
+            margin-top: 0; 
+            text-align: center; 
+            color: #ff7890;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
 
         .profile-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px dashed var(--border); /* Милый пунктир вместо сплошной линии */
         }
 
-        #myInfo { font-weight: 600; font-size: 14px; }
+        #myInfo { 
+            font-weight: bold; 
+            font-size: 15px; 
+            color: #ff7890;
+            background: #fff0f2;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
 
         #btn-logout {
-            background: #f2f2f2;
-            color: #555;
-            padding: 6px 12px;
+            background: #fff0f2;
+            color: #ff7890;
+            padding: 6px 14px;
             font-size: 12px;
-            border: none;
-            border-radius: 6px;
+            border: 1px solid #ffde00; /* Желтая каемочка для милоты */
+            border: 1px solid #ffcbd4;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        #btn-logout:hover {
+            background: #ffcbd4;
+            color: white;
         }
 
         .timer-display {
-            font-size: 26px;
+            font-size: 32px;
             font-weight: bold;
-            color: var(--primary);
+            color: #ff6b8b;
             text-align: center;
             margin: 10px 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            background: #fffafb;
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px dashed #ffcbd4;
+        }
+
+        /* Анимация пульсации для таймера, когда он запущен */
+        .timer-display.pulse {
+            animation: cute-pulse 2s infinite;
+        }
+        @keyframes cute-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 139, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0); }
         }
 
         #groupList {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .user-item { 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
-            padding: 12px 16px; 
-            background: #fafafa;
+            padding: 14px 18px; 
+            background: #fff8f9;
             border: 1px solid var(--border);
-            border-radius: 12px; 
+            border-radius: 16px; 
+            transition: transform 0.2s;
+        }
+        .user-item:hover {
+            transform: translateY(-2px);
         }
 
         .user-left {
@@ -102,95 +144,129 @@
             height: 14px; 
             border-radius: 50%; 
             margin-right: 15px; 
-            box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.05);
-            transition: background 0.3s;
+            box-shadow: 0 0 0 3px #fff, 0 0 8px rgba(0,0,0,0.05);
+            background: #ccc;
         }
 
-        .user-info strong { font-size: 15px; display: block; }
-        .user-info small { color: #65676b; font-size: 13px; }
+        .user-info strong { font-size: 15px; display: block; color: #5a4449; }
+        .user-info small { 
+            background: #ffffff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px; 
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 4px;
+            border: 1px solid #ffe3e8;
+        }
 
         .user-right {
             text-align: right;
             font-size: 12px;
             font-weight: bold;
-            color: var(--primary);
+            color: #ff7890;
+            background: #ffffff;
+            padding: 6px 10px;
+            border-radius: 12px;
+            border: 1px solid #ffe3e8;
         }
 
         .controls { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 10px; 
+            gap: 12px; 
+            margin-top: 10px;
         }
 
         .controls button { 
-            padding: 12px 5px; 
+            padding: 15px 5px; 
             cursor: pointer; 
             border: none; 
-            border-radius: 8px; 
-            font-weight: 600;
-            font-size: 13px;
+            border-radius: 14px; 
+            font-weight: bold;
+            font-size: 14px;
             color: white;
-            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
 
         .controls button:active { transform: scale(0.95); }
 
-        /* Кнопка старта/стопа на всю ширину */
+        /* Красивые зефирные кнопки */
         #session-btn {
             grid-column: span 2;
-            background: var(--success);
+            background: linear-gradient(135deg, #ffb7c5, #ff9eaf);
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
         }
         #session-btn.active {
-            background: var(--danger);
+            background: linear-gradient(135deg, #ff8b94, #ff6b8b);
         }
 
         #btn-break {
-            background: var(--warning);
+            background: linear-gradient(135deg, #ffdac1, #ffb7a1);
+            color: #835743;
         }
 
         #btn-login {
             width: 100%;
-            background: var(--primary);
+            background: linear-gradient(135deg, #ffb7c5, #ff7890);
             color: white;
             font-size: 16px;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 14px;
             cursor: pointer;
             margin-top: 20px;
-            font-weight: 600;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(255, 120, 144, 0.3);
+            transition: 0.2s;
+        }
+        #btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 120, 144, 0.4);
         }
 
         .hidden { display: none; }
+        
+        .section-title {
+            margin: 5px 0 0 0; 
+            font-size: 14px; 
+            color: #a8838c; 
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div id="auth-section">
-            <h1>Статус Монитор</h1>
-            <p style="text-align:center; color: #666;">Войдите через Google, чтобы отслеживать время и менять свой статус</p>
-            <button id="btn-login">Войти через Google</button>
+            <h1>🌸 Статус Монитор 🌸</h1>
+            <p style="text-align:center; color: #8e7177; font-size: 14px;">Войдите через Google, чтобы открыть волшебный таймер ✨</p>
+            <button id="btn-login">Войти через Google 🐾</button>
         </div>
 
         <div id="app-section" class="hidden">
             <div class="profile-header">
-                <div id="myInfo">👤 Загрузка...</div>
-                <button id="btn-logout">Выйти</button>
+                <div id="myInfo">👑 Загрузка...</div>
+                <button id="btn-logout">Выйти 🚪</button>
             </div>
 
-            <div class="timer-display">
-                <span>⏱️</span> <span id="stopwatch">00:00:00</span>
+            <div id="cute-timer-container" class="timer-display">
+                <span>🧁</span> <span id="stopwatch">00:00:00</span>
             </div>
             
-            <h3 style="margin: 5px 0 0 0; font-size: 14px; color: #555;">👥 Монитор группы</h3>
+            <div class="section-title">✨ Монитор нашей группы ✨</div>
             <div id="groupList">
-                <p style="text-align:center; color:#999;">Обновление списка...</p>
+                <p style="text-align:center; color:#c7aab0; font-size: 13px;">Милые котики загружаются... 🐾</p>
             </div>
 
             <div class="controls">
-                <button id="session-btn" onclick="handleSession()">🚀 Начать сессию</button>
-                <button id="btn-break" onclick="togglePause()">☕ Перерыв</button>
+                <button id="session-btn" onclick="handleSession()">💖 Начать сессию</button>
+                <button id="btn-break" onclick="togglePause()">🍼 Перерыв</button>
             </div>
         </div>
     </div>
@@ -218,7 +294,7 @@
             });
         };
 
-        // Выход из системы (Исправленный)
+        // Выход из системы
         document.getElementById('btn-logout').onclick = async () => {
             await supabase.auth.signOut();
             window.localStorage.clear();
@@ -226,26 +302,27 @@
             window.location.reload();
         };
 
-        // УПРАВЛЕНИЕ СЕССИЕЙ И СТАТУСОМ (Обновлено)
+        // УПРАВЛЕНИЕ СЕССИЕЙ
         window.handleSession = async () => {
             if (!userSession) return;
             const btn = document.getElementById('session-btn');
+            const timerContainer = document.getElementById('cute-timer-container');
 
             if (!isSessionActive) {
-                // Старт сессии
                 isSessionActive = true;
                 isPaused = false;
                 seconds = 0;
                 const startTime = new Date().toISOString();
 
-                btn.innerText = "🛑 Завершить сессию";
+                btn.innerText = "🌸 Завершить сессию";
                 btn.classList.add('active');
+                timerContainer.classList.add('pulse'); // Запуск милой пульсации таймера
 
                 await supabase.from('profiles').upsert({ 
                     id: userSession.id, 
                     username: userSession.user_metadata.full_name || userSession.email,
                     status: 'Работаю', 
-                    color: '#4caf50',
+                    color: '#b5ead7', // Зефирный зеленый
                     started_at: startTime
                 });
 
@@ -257,21 +334,21 @@
                     }
                 }, 1000);
             } else {
-                // Завершение сессии
                 isSessionActive = false;
                 clearInterval(timerInterval);
                 
-                btn.innerText = "🚀 Начать сессию";
+                btn.innerText = "💖 Начать сессию";
                 btn.classList.remove('active');
+                timerContainer.classList.remove('pulse');
 
-                // Сбрасываем кнопку паузы к стандартному виду
                 const breakBtn = document.getElementById('btn-break');
-                breakBtn.innerText = '☕ Перерыв';
-                breakBtn.style.background = 'var(--warning)';
+                breakBtn.innerText = '🍼 Перерыв';
+                breakBtn.style.background = 'linear-gradient(135deg, #ffdac1, #ffb7a1)';
+                breakBtn.style.color = '#835743';
 
                 await supabase.from('profiles').update({ 
                     status: 'Отдыхаю', 
-                    color: '#f44336',
+                    color: '#ff8b94', // Зефирный розово-красный
                     started_at: null
                 }).eq('id', userSession.id);
 
@@ -288,7 +365,7 @@
             document.getElementById('stopwatch').innerText = `${h}:${m}:${s}`;
         }
 
-        // Поставить сессию на паузу / Снять с паузы
+        // Пауза
         window.togglePause = async () => {
             if (!isSessionActive || !userSession) return;
             
@@ -296,26 +373,28 @@
             const breakBtn = document.getElementById('btn-break');
 
             if (isPaused) {
-                breakBtn.innerText = '▶️ Продолжить';
-                breakBtn.style.background = '#2ecc71';
+                breakBtn.innerText = '🐾 Продолжить';
+                breakBtn.style.background = 'linear-gradient(135deg, #b5ead7, #96dbbe)';
+                breakBtn.style.color = '#386955';
 
                 await supabase.from('profiles').update({ 
                     status: 'Обедаю', 
-                    color: '#ff9800'
+                    color: '#ffdac1' // Персиковый статус
                 }).eq('id', userSession.id);
             } else {
-                breakBtn.innerText = '☕ Перерыв';
-                breakBtn.style.background = 'var(--warning)';
+                breakBtn.innerText = '🍼 Перерыв';
+                breakBtn.style.background = 'linear-gradient(135deg, #ffdac1, #ffb7a1)';
+                breakBtn.style.color = '#835743';
 
                 await supabase.from('profiles').update({ 
                     status: 'Работаю', 
-                    color: '#4caf50'
+                    color: '#b5ead7'
                 }).eq('id', userSession.id);
             }
             fetchGroup();
         };
 
-        // ПОЛУЧЕНИЕ ДАННЫХ И ИМЕН ИЗ GOOGLE
+        // Загрузка данных группы
         async function fetchGroup() {
             const { data, error } = await supabase
                 .from('profiles')
@@ -323,7 +402,7 @@
                 .order('username');
 
             if (error) {
-                console.error('Ошибка загрузки профилей:', error);
+                console.error('Ошибка:', error);
                 return;
             }
 
@@ -336,7 +415,6 @@
             if (!listContainer) return;
 
             listContainer.innerHTML = groupProfiles.map(user => {
-                // Подсчитываем время сессии для каждого, у кого она запущена
                 let timeStr = "0ч 0м 0с";
                 if (user.started_at) {
                     const diff = Math.floor((new Date() - new Date(user.started_at)) / 1000);
@@ -346,44 +424,45 @@
                     timeStr = `${h}ч ${m}м ${s}с`;
                 }
 
+                // Присваиваем милые цвета тексту статуса
+                let statusTextColor = '#8e7177';
+                if (user.status === 'Работаю') statusTextColor = '#386955';
+                if (user.status === 'Обедаю') statusTextColor = '#835743';
+                if (user.status === 'Отдыхаю') statusTextColor = '#a34850';
+
                 return `
                     <div class="user-item">
                         <div class="user-left">
-                            <div class="status-dot" style="background: ${user.color || '#ccc'}"></div>
+                            <div class="status-dot" style="background: ${user.color || '#e4e6eb'}"></div>
                             <div class="user-info">
                                 <strong>${user.username || 'Участник'}</strong>
-                                <small>${user.status || 'Статус не установлен'}</small>
+                                <small style="color: ${statusTextColor}; border-color: ${user.color || '#ffe3e8'};">${user.status || 'Отдыхает'}</small>
                             </div>
                         </div>
                         <div class="user-right">
-                            ⏱️ ${timeStr}
+                            🌸 ${timeStr}
                         </div>
                     </div>
                 `;
             }).join('');
 
-            // Обновляем имя текущего пользователя на шапке панели
             const currentUser = groupProfiles.find(u => u.id === userSession.id);
             if (currentUser) {
-                document.getElementById('myInfo').innerText = `👤 ${currentUser.username}`;
+                document.getElementById('myInfo').innerText = `🎀 ${currentUser.username}`;
             }
         }
 
-        // Проверка сессии при инициализации
+        // Запуск
         async function init() {
             const { data } = await supabase.auth.getSession();
             if (data.session) {
                 userSession = data.session.user;
                 
-                // Сразу же выводим его имя из метаданных Google, пока грузится база
-                document.getElementById('myInfo').innerText = `👤 ${userSession.user_metadata.full_name || userSession.email}`;
-                
+                document.getElementById('myInfo').innerText = `🎀 ${userSession.user_metadata.full_name || userSession.email}`;
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
                 
                 await fetchGroup();
-                
-                // Обновляем весь список и таймеры каждую 1 секунду
                 setInterval(fetchGroup, 1000);
             }
         }
