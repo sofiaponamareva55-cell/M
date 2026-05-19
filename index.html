@@ -3,291 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work Monitor Pro</title>
+    <title>Статус Монитор</title>
     <style>
         :root {
-            --bg: #f4f7f6;
+            --bg: #f0f2f5;
             --card: #ffffff;
-            --text: #333;
+            --text: #1c1e21;
             --primary: #4285F4;
-            --danger: #e74c3c;
-            --warning: #f1c40f;
-            --success: #2ecc71;
-            --gray: #95a5a6;
+            --danger: #f44336;
+            --warning: #ff9800;
+            --success: #4caf50;
+            --border: #e4e6eb;
         }
 
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--bg); color: var(--text); 
-            display: flex; justify-content: center; padding: 20px; margin: 0;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .app-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-        .user-card { text-align: center; }
-        .user-name { font-weight: bold; font-size: 18px; margin-bottom: 10px; display: block; }
-        .timer-display { font-size: 28px; font-weight: bold; color: var(--primary); margin: 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        button { border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        button:active { transform: scale(0.98); }
-        
-        /* Кнопка старта/стопа */
-        .btn-main { background: var(--success); color: white; width: 100%; grid-column: span 2; }
-        .btn-main.active { background: var(--danger) !important; }
-        
-        .btn-break { background: var(--warning); color: white; }
-        .btn-exit { background: var(--gray); color: white; }
+        h1 { font-size: 22px; margin-top: 0; text-align: center; }
 
-        .section-title { font-size: 14px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-        .user-list { display: flex; flex-direction: column; gap: 8px; }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #myInfo { font-weight: 600; font-size: 14px; }
+
+        #btn-logout {
+            background: #f2f2f2;
+            color: #555;
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .timer-display {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #groupList {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .user-item { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 12px; border-radius: 12px; background: #fff; border: 1px solid #eee;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            padding: 12px 16px; 
+            background: #fafafa;
+            border: 1px solid var(--border);
+            border-radius: 12px; 
         }
-        .online-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; display: inline-block; margin-right: 8px; }
-        .online-dot.active { background: var(--success); box-shadow: 0 0 5px var(--success); }
 
-        .chat-box { height: 150px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; padding: 10px; font-size: 13px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; }
-        .chat-input-group { display: flex; gap: 5px; }
-        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-send { background: var(--success); color: white; }
+        .user-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-dot { 
+            width: 14px; 
+            height: 14px; 
+            border-radius: 50%; 
+            margin-right: 15px; 
+            box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.05);
+            transition: background 0.3s;
+        }
+
+        .user-info strong { font-size: 15px; display: block; }
+        .user-info small { color: #65676b; font-size: 13px; }
+
+        .user-right {
+            text-align: right;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .controls { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+        }
+
+        .controls button { 
+            padding: 12px 5px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600;
+            font-size: 13px;
+            color: white;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .controls button:active { transform: scale(0.95); }
+
+        /* Кнопка старта/стопа на всю ширину */
+        #session-btn {
+            grid-column: span 2;
+            background: var(--success);
+        }
+        #session-btn.active {
+            background: var(--danger);
+        }
+
+        #btn-break {
+            background: var(--warning);
+        }
+
+        #btn-login {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-size: 16px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
+        }
 
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div id="auth-section" class="card" style="text-align: center;">
-        <h1>Work Monitor</h1>
-        <button id="btn-login" style="background: var(--primary); color: white; width: 100%;">Войти через Google</button>
-    </div>
+    <div class="container">
+        <div id="auth-section">
+            <h1>Статус Монитор</h1>
+            <p style="text-align:center; color: #666;">Войдите через Google, чтобы отслеживать время и менять свой статус</p>
+            <button id="btn-login">Войти через Google</button>
+        </div>
 
-    <div id="app-section" class="hidden">
-        <div class="card user-card">
-            <span id="display-name" class="user-name">Загрузка...</span>
+        <div id="app-section" class="hidden">
+            <div class="profile-header">
+                <div id="myInfo">👤 Загрузка...</div>
+                <button id="btn-logout">Выйти</button>
+            </div>
+
             <div class="timer-display">
                 <span>⏱️</span> <span id="stopwatch">00:00:00</span>
             </div>
-            <div class="btn-grid">
-                <button id="session-btn" class="btn-main" onclick="handleSession()">🚀 Начать сессию</button>
-                <button class="btn-break" onclick="togglePause()">☕ Перерыв</button>
-                <button class="btn-exit" onclick="logout()">Выход</button>
+            
+            <h3 style="margin: 5px 0 0 0; font-size: 14px; color: #555;">👥 Монитор группы</h3>
+            <div id="groupList">
+                <p style="text-align:center; color:#999;">Обновление списка...</p>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="section-title">👥 Монитор группы</div>
-            <div id="group-list" class="user-list"></div>
-        </div>
-
-        <div class="card">
-            <div class="section-title">💬 Общий чат</div>
-            <div id="chat-messages" class="chat-box"></div>
-            <div class="chat-input-group">
-                <input type="text" id="chat-input" placeholder="Сообщение...">
-                <button class="btn-send" onclick="sendMessage()">➤</button>
+            <div class="controls">
+                <button id="session-btn" onclick="handleSession()">🚀 Начать сессию</button>
+                <button id="btn-break" onclick="togglePause()">☕ Перерыв</button>
             </div>
         </div>
     </div>
-</div>
 
-<script type="module">
-   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-        // Конфигурация твоей новой базы
         const URL = 'https://tqtpdtforramqzhjqalf.supabase.co';
         const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxdHBkdGZvcnJhbXF6aGpxYWxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MDQyNDUsImV4cCI6MjA5MTM4MDI0NX0.c6bFblzCpMXn0ssNZD8BeOlzk21aTdO1fjxhPEVluuk';
 
-    const supabase = createClient(URL, KEY);
-
-    let user = null;
-    let profiles = [];
-    let seconds = 0;
-    let timerInterval = null;
-    let isPaused = false;
-    let isSessionActive = false;
-
-    // Инициализация
-    async function init() {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-            user = session.user;
-            showApp();
-        } else {
-            document.getElementById('auth-section').classList.remove('hidden');
-        }
-    }
-
-    function showApp() {
-        document.getElementById('auth-section').classList.add('hidden');
-        document.getElementById('app-section').classList.remove('hidden');
-        document.getElementById('display-name').innerText = user.user_metadata.full_name || user.email;
+        const supabase = createClient(URL, KEY);
         
-        setupRealtime();
-        fetchInitialData();
-        trackPresence();
-        
-        setInterval(renderUserList, 1000);
-    }
+        let userSession = null;
+        let groupProfiles = [];
+        let seconds = 0;
+        let timerInterval = null;
+        let isPaused = false;
+        let isSessionActive = false;
 
-    // ЛОГИКА СЕССИИ (Исправлено переключение кнопки)
-    window.handleSession = async () => {
-        const btn = document.getElementById('session-btn');
-        
-        if (!isSessionActive) {
-            isSessionActive = true;
-            isPaused = false;
-            seconds = 0;
-            const startTime = new Date().toISOString();
-            
-            btn.innerText = "🛑 Завершить сессию";
-            btn.classList.add('active');
-
-            await supabase.from('profiles.').upsert({
-                id: user.id,
-                username: user.user_metadata.full_name || user.email,
-                status: 'Учится',
-                started_at: startTime
+        // Вход через Google
+        document.getElementById('btn-login').onclick = async () => {
+            await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin }
             });
+        };
 
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                if (!isPaused) {
-                    seconds++;
-                    updateTimerDisplay();
-                }
-            }, 1000);
-        } else {
-            isSessionActive = false;
-            clearInterval(timerInterval);
-            btn.innerText = "🚀 Начать сессию";
-            btn.classList.remove('active');
-            
-            await supabase.from('profiles.').update({ 
-                status: 'Дома',
-                started_at: null 
-            }).eq('id', user.id);
-            
-            seconds = 0;
-            updateTimerDisplay();
+        // Выход из системы (Исправленный)
+        document.getElementById('btn-logout').onclick = async () => {
+            await supabase.auth.signOut();
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+            window.location.reload();
+        };
+
+        // УПРАВЛЕНИЕ СЕССИЕЙ И СТАТУСОМ (Обновлено)
+        window.handleSession = async () => {
+            if (!userSession) return;
+            const btn = document.getElementById('session-btn');
+
+            if (!isSessionActive) {
+                // Старт сессии
+                isSessionActive = true;
+                isPaused = false;
+                seconds = 0;
+                const startTime = new Date().toISOString();
+
+                btn.innerText = "🛑 Завершить сессию";
+                btn.classList.add('active');
+
+                await supabase.from('profiles').upsert({ 
+                    id: userSession.id, 
+                    username: userSession.user_metadata.full_name || userSession.email,
+                    status: 'Работаю', 
+                    color: '#4caf50',
+                    started_at: startTime
+                });
+
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    if (!isPaused) {
+                        seconds++;
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            } else {
+                // Завершение сессии
+                isSessionActive = false;
+                clearInterval(timerInterval);
+                
+                btn.innerText = "🚀 Начать сессию";
+                btn.classList.remove('active');
+
+                // Сбрасываем кнопку паузы к стандартному виду
+                const breakBtn = document.getElementById('btn-break');
+                breakBtn.innerText = '☕ Перерыв';
+                breakBtn.style.background = 'var(--warning)';
+
+                await supabase.from('profiles').update({ 
+                    status: 'Отдыхаю', 
+                    color: '#f44336',
+                    started_at: null
+                }).eq('id', userSession.id);
+
+                seconds = 0;
+                updateTimerDisplay();
+            }
+            fetchGroup();
+        };
+
+        function updateTimerDisplay() {
+            const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+            const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('stopwatch').innerText = `${h}:${m}:${s}`;
         }
-    };
 
-    function updateTimerDisplay() {
-        const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
-        const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-        const s = (seconds % 60).toString().padStart(2, '0');
-        document.getElementById('stopwatch').innerText = `${h}:${m}:${s}`;
-    }
+        // Поставить сессию на паузу / Снять с паузы
+        window.togglePause = async () => {
+            if (!isSessionActive || !userSession) return;
+            
+            isPaused = !isPaused;
+            const breakBtn = document.getElementById('btn-break');
 
-    window.togglePause = () => {
-        if (!isSessionActive) return;
-        isPaused = !isPaused;
-        const btn = document.querySelector('.btn-break');
-        btn.innerText = isPaused ? '▶️ Продолжить' : '☕ Перерыв';
-        btn.style.background = isPaused ? '#2ecc71' : '#f1c40f';
-    };
+            if (isPaused) {
+                breakBtn.innerText = '▶️ Продолжить';
+                breakBtn.style.background = '#2ecc71';
 
-    // МОНИТОР ГРУППЫ (Исправлено отображение имен из Google)
-    async function fetchInitialData() {
-        const { data } = await supabase.from('profiles.').select('*');
-        profiles = data || [];
-        renderUserList();
-        fetchChat();
-    }
+                await supabase.from('profiles').update({ 
+                    status: 'Обедаю', 
+                    color: '#ff9800'
+                }).eq('id', userSession.id);
+            } else {
+                breakBtn.innerText = '☕ Перерыв';
+                breakBtn.style.background = 'var(--warning)';
 
-    function setupRealtime() {
-        supabase.channel('db-changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles.' }, payload => {
-                if (payload.eventType === 'INSERT') {
-                    profiles.push(payload.new);
-                } else if (payload.eventType === 'UPDATE') {
-                    profiles = profiles.map(p => p.id === payload.new.id ? payload.new : p);
-                }
-                renderUserList();
-            })
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-                addMessageToUI(payload.new);
-            })
-            .subscribe();
-    }
+                await supabase.from('profiles').update({ 
+                    status: 'Работаю', 
+                    color: '#4caf50'
+                }).eq('id', userSession.id);
+            }
+            fetchGroup();
+        };
 
-    function trackPresence() {
-        const channel = supabase.channel('online-users');
-        channel.on('presence', { event: 'sync' }, () => {
-            window.currentOnlineUsers = Object.values(channel.presenceState()).flat().map(i => i.user_id);
-            renderUserList();
-        }).subscribe(async (status) => {
-            if (status === 'SUBSCRIBED') await channel.track({ user_id: user.id });
-        });
-    }
+        // ПОЛУЧЕНИЕ ДАННЫХ И ИМЕН ИЗ GOOGLE
+        async function fetchGroup() {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .order('username');
 
-    function renderUserList() {
-        const container = document.getElementById('group-list');
-        container.innerHTML = profiles.map(p => {
-            const isOnline = (window.currentOnlineUsers || []).includes(p.id);
-            let timeStr = "0ч 0м 0с";
-            if (p.started_at) {
-                const diff = Math.floor((new Date() - new Date(p.started_at)) / 1000);
-                const h = Math.floor(diff / 3600);
-                const m = Math.floor((diff % 3600) / 60);
-                const s = diff % 60;
-                timeStr = `${h}ч ${m}м ${s}с`;
+            if (error) {
+                console.error('Ошибка загрузки профилей:', error);
+                return;
             }
 
-            return `
-                <div class="user-item">
-                    <div>
-                        <span class="online-dot ${isOnline ? 'active' : ''}"></span>
-                        <strong>${p.username || 'Участник'}</strong>
+            groupProfiles = data || [];
+            renderGroupList();
+        }
+
+        function renderGroupList() {
+            const listContainer = document.getElementById('groupList');
+            if (!listContainer) return;
+
+            listContainer.innerHTML = groupProfiles.map(user => {
+                // Подсчитываем время сессии для каждого, у кого она запущена
+                let timeStr = "0ч 0м 0с";
+                if (user.started_at) {
+                    const diff = Math.floor((new Date() - new Date(user.started_at)) / 1000);
+                    const h = Math.floor(diff / 3600);
+                    const m = Math.floor((diff % 3600) / 60);
+                    const s = diff % 60;
+                    timeStr = `${h}ч ${m}м ${s}с`;
+                }
+
+                return `
+                    <div class="user-item">
+                        <div class="user-left">
+                            <div class="status-dot" style="background: ${user.color || '#ccc'}"></div>
+                            <div class="user-info">
+                                <strong>${user.username || 'Участник'}</strong>
+                                <small>${user.status || 'Статус не установлен'}</small>
+                            </div>
+                        </div>
+                        <div class="user-right">
+                            ⏱️ ${timeStr}
+                        </div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 11px; color: #666;">🏠 ${p.status || 'Дома'}</div>
-                        <div style="font-size: 11px; color: var(--primary); font-weight: bold;">⏱️ ${timeStr}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
+                `;
+            }).join('');
 
-    // ЧАТ
-    async function fetchChat() {
-        const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: true }).limit(30);
-        if (data) data.forEach(addMessageToUI);
-    }
+            // Обновляем имя текущего пользователя на шапке панели
+            const currentUser = groupProfiles.find(u => u.id === userSession.id);
+            if (currentUser) {
+                document.getElementById('myInfo').innerText = `👤 ${currentUser.username}`;
+            }
+        }
 
-    window.sendMessage = async () => {
-        const input = document.getElementById('chat-input');
-        if (!input.value.trim()) return;
-        await supabase.from('messages').insert({
-            user_id: user.id,
-            user_name: user.user_metadata.full_name || user.email,
-            content: input.value.trim()
-        });
-        input.value = '';
-    };
+        // Проверка сессии при инициализации
+        async function init() {
+            const { data } = await supabase.auth.getSession();
+            if (data.session) {
+                userSession = data.session.user;
+                
+                // Сразу же выводим его имя из метаданных Google, пока грузится база
+                document.getElementById('myInfo').innerText = `👤 ${userSession.user_metadata.full_name || userSession.email}`;
+                
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('app-section').classList.remove('hidden');
+                
+                await fetchGroup();
+                
+                // Обновляем весь список и таймеры каждую 1 секунду
+                setInterval(fetchGroup, 1000);
+            }
+        }
 
-    function addMessageToUI(msg) {
-        const box = document.getElementById('chat-messages');
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${msg.user_name}:</strong> ${msg.content}`;
-        box.appendChild(div);
-        box.scrollTop = box.scrollHeight;
-    }
-
-    // КНОПКА ВЫХОДА (Исправлено)
-    window.logout = async () => {
-        await supabase.auth.signOut();
-        localStorage.clear();
-        location.reload();
-    };
-
-    document.getElementById('btn-login').onclick = () => supabase.auth.signInWithOAuth({ provider: 'google' });
-
-    init();
-</script>
+        init();
+    </script>
 </body>
 </html>
