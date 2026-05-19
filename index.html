@@ -6,15 +6,14 @@
     <title>🎀 Статус Монитор 🎀</title>
     <style>
         :root {
-            --bg: #fff5f7; /* Очень нежный розовый фон страницы */
+            --bg: #fff5f7; 
             --card: #ffffff;
-            --text: #6b4f57; /* Мягкий кофейно-розовый цвет текста вместо скучного черного */
-            --primary: #ffb7c5; /* Пастельно-розовый */
-            --primary-hover: #ff9eaf;
-            --danger: #ff8b94; /* Клубничный красный */
-            --warning: #ffdac1; /* Персиковый оранжевый */
-            --success: #b5ead7; /* Мятный зеленый */
-            --border: #ffe3e8; /* Нежная розовая граница */
+            --text: #6b4f57; 
+            --primary: #ffb7c5; 
+            --danger: #ff8b94; 
+            --warning: #ffdac1; 
+            --success: #b5ead7; 
+            --border: #ffe3e8; 
         }
 
         body { 
@@ -22,7 +21,7 @@
             background-color: var(--bg); 
             background-image: radial-gradient(#ffdfe5 15%, transparent 15%), radial-gradient(#ffdfe5 15%, transparent 15%);
             background-size: 20px 20px;
-            background-position: 0 0, 10px 10px; /* Милый узор в крапинку на фоне */
+            background-position: 0 0, 10px 10px; 
             color: var(--text);
             display: flex;
             justify-content: center;
@@ -38,8 +37,8 @@
             max-width: 450px;
             background: var(--card);
             padding: 30px 24px;
-            border-radius: 24px; /* Более округлые «вкусные» углы */
-            box-shadow: 0 8px 24px rgba(255, 183, 197, 0.25); /* Розовая мягкая тень */
+            border-radius: 24px; 
+            box-shadow: 0 8px 24px rgba(255, 183, 197, 0.25); 
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -59,7 +58,7 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 15px;
-            border-bottom: 2px dashed var(--border); /* Милый пунктир вместо сплошной линии */
+            border-bottom: 2px dashed var(--border); 
         }
 
         #myInfo { 
@@ -76,7 +75,6 @@
             color: #ff7890;
             padding: 6px 14px;
             font-size: 12px;
-            border: 1px solid #ffde00; /* Желтая каемочка для милоты */
             border: 1px solid #ffcbd4;
             border-radius: 20px;
             cursor: pointer;
@@ -104,7 +102,6 @@
             border: 1px dashed #ffcbd4;
         }
 
-        /* Анимация пульсации для таймера, когда он запущен */
         .timer-display.pulse {
             animation: cute-pulse 2s infinite;
         }
@@ -130,14 +127,9 @@
             border-radius: 16px; 
             transition: transform 0.2s;
         }
-        .user-item:hover {
-            transform: translateY(-2px);
-        }
+        .user-item:hover { transform: translateY(-2px); }
 
-        .user-left {
-            display: flex;
-            align-items: center;
-        }
+        .user-left { display: flex; align-items: center; }
 
         .status-dot { 
             width: 14px; 
@@ -171,6 +163,49 @@
             border: 1px solid #ffe3e8;
         }
 
+        /* --- КРАСИВЫЙ РОЗОВЫЙ ЧАТ (ВЕРНУЛСЯ!) --- */
+        .chat-box {
+            height: 150px;
+            overflow-y: auto;
+            border: 1px dashed #ffcbd4;
+            border-radius: 16px;
+            padding: 12px;
+            font-size: 13px;
+            background: #fffafb;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .chat-input-group {
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            font-family: inherit;
+            color: var(--text);
+            background: #fff8f9;
+        }
+        .chat-input-group input:focus {
+            border-color: #ff9eaf;
+            background: #fff;
+        }
+        .btn-send {
+            background: linear-gradient(135deg, #ffcbd4, #ff9eaf);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-send:active { transform: scale(0.95); }
+
         .controls { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -189,10 +224,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             transition: all 0.2s;
         }
-
         .controls button:active { transform: scale(0.95); }
 
-        /* Красивые зефирные кнопки */
         #session-btn {
             grid-column: span 2;
             background: linear-gradient(135deg, #ffb7c5, #ff9eaf);
@@ -221,10 +254,6 @@
             font-weight: bold;
             box-shadow: 0 6px 15px rgba(255, 120, 144, 0.3);
             transition: 0.2s;
-        }
-        #btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 120, 144, 0.4);
         }
 
         .hidden { display: none; }
@@ -264,6 +293,13 @@
                 <p style="text-align:center; color:#c7aab0; font-size: 13px;">Милые котики загружаются... 🐾</p>
             </div>
 
+            <div class="section-title">💬 Наш уютный чатик</div>
+            <div id="chat-messages" class="chat-box"></div>
+            <div class="chat-input-group">
+                <input type="text" id="chat-input" placeholder="Напиши что-нибудь милое...">
+                <button class="btn-send" onclick="sendMessage()">💌</button>
+            </div>
+
             <div class="controls">
                 <button id="session-btn" onclick="handleSession()">💖 Начать сессию</button>
                 <button id="btn-break" onclick="togglePause()">🍼 Перерыв</button>
@@ -286,23 +322,9 @@
         let isPaused = false;
         let isSessionActive = false;
 
-        // Вход через Google
-        document.getElementById('btn-login').onclick = async () => {
-            await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: window.location.origin }
-            });
-        };
+        document.getElementById('btn-login').onclick = () => supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+        document.getElementById('btn-logout').onclick = async () => { await supabase.auth.signOut(); window.localStorage.clear(); window.sessionStorage.clear(); window.location.reload(); };
 
-        // Выход из системы
-        document.getElementById('btn-logout').onclick = async () => {
-            await supabase.auth.signOut();
-            window.localStorage.clear();
-            window.sessionStorage.clear();
-            window.location.reload();
-        };
-
-        // УПРАВЛЕНИЕ СЕССИЕЙ
         window.handleSession = async () => {
             if (!userSession) return;
             const btn = document.getElementById('session-btn');
@@ -316,27 +338,21 @@
 
                 btn.innerText = "🌸 Завершить сессию";
                 btn.classList.add('active');
-                timerContainer.classList.add('pulse'); // Запуск милой пульсации таймера
+                timerContainer.classList.add('pulse');
 
                 await supabase.from('profiles').upsert({ 
                     id: userSession.id, 
                     username: userSession.user_metadata.full_name || userSession.email,
                     status: 'Работаю', 
-                    color: '#b5ead7', // Зефирный зеленый
+                    color: '#b5ead7', 
                     started_at: startTime
                 });
 
                 if (timerInterval) clearInterval(timerInterval);
-                timerInterval = setInterval(() => {
-                    if (!isPaused) {
-                        seconds++;
-                        updateTimerDisplay();
-                    }
-                }, 1000);
+                timerInterval = setInterval(() => { if (!isPaused) { seconds++; updateTimerDisplay(); } }, 1000);
             } else {
                 isSessionActive = false;
                 clearInterval(timerInterval);
-                
                 btn.innerText = "💖 Начать сессию";
                 btn.classList.remove('active');
                 timerContainer.classList.remove('pulse');
@@ -346,14 +362,8 @@
                 breakBtn.style.background = 'linear-gradient(135deg, #ffdac1, #ffb7a1)';
                 breakBtn.style.color = '#835743';
 
-                await supabase.from('profiles').update({ 
-                    status: 'Отдыхаю', 
-                    color: '#ff8b94', // Зефирный розово-красный
-                    started_at: null
-                }).eq('id', userSession.id);
-
-                seconds = 0;
-                updateTimerDisplay();
+                await supabase.from('profiles').update({ status: 'Отдыхаю', color: '#ff8b94', started_at: null }).eq('id', userSession.id);
+                seconds = 0; updateTimerDisplay();
             }
             fetchGroup();
         };
@@ -365,10 +375,8 @@
             document.getElementById('stopwatch').innerText = `${h}:${m}:${s}`;
         }
 
-        // Пауза
         window.togglePause = async () => {
             if (!isSessionActive || !userSession) return;
-            
             isPaused = !isPaused;
             const breakBtn = document.getElementById('btn-break');
 
@@ -376,36 +384,51 @@
                 breakBtn.innerText = '🐾 Продолжить';
                 breakBtn.style.background = 'linear-gradient(135deg, #b5ead7, #96dbbe)';
                 breakBtn.style.color = '#386955';
-
-                await supabase.from('profiles').update({ 
-                    status: 'Обедаю', 
-                    color: '#ffdac1' // Персиковый статус
-                }).eq('id', userSession.id);
+                await supabase.from('profiles').update({ status: 'Обедаю', color: '#ffdac1' }).eq('id', userSession.id);
             } else {
                 breakBtn.innerText = '🍼 Перерыв';
                 breakBtn.style.background = 'linear-gradient(135deg, #ffdac1, #ffb7a1)';
                 breakBtn.style.color = '#835743';
-
-                await supabase.from('profiles').update({ 
-                    status: 'Работаю', 
-                    color: '#b5ead7'
-                }).eq('id', userSession.id);
+                await supabase.from('profiles').update({ status: 'Работаю', color: '#b5ead7' }).eq('id', userSession.id);
             }
             fetchGroup();
         };
 
-        // Загрузка данных группы
-        async function fetchGroup() {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .order('username');
-
-            if (error) {
-                console.error('Ошибка:', error);
-                return;
+        // ЛОГИКА СИНХРОНИЗАЦИИ ЧАТА (Добавлена обратно)
+        async function fetchChat() {
+            const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: true }).limit(40);
+            if (data) {
+                document.getElementById('chat-messages').innerHTML = '';
+                data.forEach(addMessageToUI);
             }
+        }
 
+        window.sendMessage = async () => {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            await supabase.from('messages').insert({
+                user_id: userSession.id,
+                user_name: userSession.user_metadata.full_name || userSession.email,
+                content: text
+            });
+            input.value = '';
+        };
+
+        function addMessageToUI(msg) {
+            const box = document.getElementById('chat-messages');
+            if (!box) return;
+            const div = document.createElement('div');
+            div.style.padding = "2px 0";
+            div.style.borderBottom = "1px dashed #fff0f2";
+            div.innerHTML = `<strong style="color: #ff7890;">${msg.user_name || 'Аноним'}:</strong> <span style="color: #5a4449;">${msg.content}</span>`;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        async function fetchGroup() {
+            const { data } = await supabase.from('profiles').select('*').order('username');
             groupProfiles = data || [];
             renderGroupList();
         }
@@ -424,7 +447,6 @@
                     timeStr = `${h}ч ${m}м ${s}с`;
                 }
 
-                // Присваиваем милые цвета тексту статуса
                 let statusTextColor = '#8e7177';
                 if (user.status === 'Работаю') statusTextColor = '#386955';
                 if (user.status === 'Обедаю') statusTextColor = '#835743';
@@ -447,22 +469,30 @@
             }).join('');
 
             const currentUser = groupProfiles.find(u => u.id === userSession.id);
-            if (currentUser) {
-                document.getElementById('myInfo').innerText = `🎀 ${currentUser.username}`;
-            }
+            if (currentUser) document.getElementById('myInfo').innerText = `🎀 ${currentUser.username}`;
         }
 
-        // Запуск
+        // Подключаем реалтайм к чату, чтобы сообщения сыпались на лету
+        function setupRealtimeChat() {
+            supabase.channel('chat-sync')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+                    addMessageToUI(payload.new);
+                })
+                .subscribe();
+        }
+
         async function init() {
             const { data } = await supabase.auth.getSession();
             if (data.session) {
                 userSession = data.session.user;
-                
                 document.getElementById('myInfo').innerText = `🎀 ${userSession.user_metadata.full_name || userSession.email}`;
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
                 
                 await fetchGroup();
+                await fetchChat();
+                setupRealtimeChat();
+                
                 setInterval(fetchGroup, 1000);
             }
         }
